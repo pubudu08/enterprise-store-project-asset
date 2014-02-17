@@ -1,0 +1,248 @@
+<%
+
+/*
+ Description: The class is used to perform validations on a field name value pair
+ GET /api/validations/assets/{type}/{fieldName}/{fieldValue}     Returns a message object indicating
+ whether the field is correct
+ Filename: validations_api_router.jag
+ Created Date: 8/10/2013
+ */
+
+require('/modules/publisher.js').exec(function(ctx) {
+
+    var config = require('/config/publisher.json');
+    var caramel = require('caramel');
+    var carbon = require('carbon');
+    var utility=require('/modules/utility.js').rxt_utility();
+
+    var router = require('/modules/router-g.js').router();
+    var routeManager = new router.Router();
+
+    var log = new Log();
+
+    routeManager.register('POST', 'publisher', '/publisher/api/project/validate/{id}', function (context) {
+        var resourceID = context.params.id;
+
+        var projectName = context.post['projectName'];
+        var projectType = context.post['projectType'];
+        var osgiService;
+        var artifactManager;
+        var artifact;
+        var adminService;
+        var status;
+        var result;
+
+        if(projectType.toLocaleLowerCase() === 'svn' || projectType.toLocaleLowerCase() === 'github'){
+            log.info("hit git");
+            artifactManager = rxtManager.getArtifactManager('vcs');
+            artifact = artifactManager.get(resourceID);
+            log.info("artifact "+artifact);
+            adminService = carbon.server.osgiServices('org.wso2.carbon.utility.versioncontrol.IRepository');
+            log.info("git "+adminService);
+            for (var i=0;i<adminService.size();i++) {
+                var id = adminService.get(i).getRepositoryType();
+                if(id.toLocaleLowerCase() === artifact.attributes.overview_serverType.toLocaleLowerCase()){
+                    osgiService = adminService.get(i);
+                }
+            }
+            status = osgiService.isRepositoryExist(artifact.attributes.interface_username,artifact.attributes.interface_password,projectName);
+
+            result = {
+                success: Boolean(status),
+                status: status
+            };
+
+            print(result);
+            osgiService=null;
+
+        }else if(projectType.toLocaleLowerCase() === 'bamboo' || projectType.toLocaleLowerCase() == 'jenkins'){
+            log.info("hit jenkins");
+            artifactManager = rxtManager.getArtifactManager('cis');
+            artifact = artifactManager.get(resourceID);
+            log.info("artifact "+artifact);
+            adminService = carbon.server.osgiServices('org.wso2.carbon.utility.continuousintegration.IContinuousIntegration');
+            log.info("jenkins "+adminService);
+            for (var i=0;i<adminService.size();i++) {
+                var id = adminService.get(i).getCISType();
+                if(id.toLocaleLowerCase() === artifact.attributes.overview_serverType.toLocaleLowerCase()){
+                    osgiService = adminService.get(i);
+                }
+            }
+            status = osgiService.isCISProjectExist(artifact.attributes.interface_username,artifact.attributes.interface_password,artifact.attributes.interface_serverURL,projectName);
+
+            result = {
+                 success: Boolean(status),
+                 status: status
+            };
+
+            print(result);
+            osgiService=null;
+
+        }else if(projectType.toLocaleLowerCase() === 'jira'){
+
+            artifactManager = rxtManager.getArtifactManager('iss');
+            artifact = artifactManager.get(resourceID);
+            adminService = carbon.server.osgiServices('org.wso2.carbon.utility.issuetracker.IIssueTracker');
+            log.info(adminService);
+            for (var i=0;i<adminService.size();i++) {
+               var id = adminService.get(i).getIssueTrackerType();
+               if(id.toLocaleLowerCase() === artifact.attributes.overview_serverType.toLocaleLowerCase()){
+                   osgiService = adminService.get(i);
+               }
+            }
+            log.info(artifact.attributes.interface_username + " "+artifact.attributes.interface_password+" "+projectName);
+            status = osgiService.isIssueTrackerProjectExist(artifact.attributes.interface_username,artifact.attributes.interface_password,projectName);
+            log.info(status);
+            result = {
+                  success: Boolean(status),
+                  status: status
+             };
+
+             print(result);
+              osgiService=null;
+
+        }else if(projectType.toLocaleLowerCase() === 'redmine'){
+            log.info("hit Redmine");
+            artifactManager = rxtManager.getArtifactManager('pms');
+            log.info(artifactManager) ;
+            artifact = artifactManager.get(resourceID);
+            adminService = carbon.server.osgiServices('org.wso2.carbon.utility.projectmanagement.IProjectManagement');
+
+            for (var i=0;i<adminService.size();i++) {
+                var id = adminService.get(i).getPMSType();
+                if(id.toLocaleLowerCase() === artifact.attributes.overview_serverType.toLocaleLowerCase()){
+                    osgiService = adminService.get(i);
+                    log.info(osgiService);
+                }
+            }
+            log.info(projectName);
+            log.info(artifact.attributes.interface_username);
+            log.info(artifact.attributes.interface_password);
+            status = osgiService.isPMSProjectExist("","",projectName);
+            log.info(status);
+            result = {
+                 success: Boolean(status),
+                 status: status
+            };
+
+            print(result);
+             osgiService=null;
+
+        }else{
+
+        }
+    });
+
+    routeManager.register('POST', 'publisher', '/publisher/api/project/validate/advance/{id}', function (context){
+        var resourceID = context.params.id;
+
+        var projectName = context.post['projectName'];
+        var projectType = context.post['projectType'];
+        var osgiService;
+        var artifactManager;
+        var artifact;
+        var adminService;
+        var status;
+        var result;
+
+            if(projectType.toLocaleLowerCase() === 'jira'){
+            log.info("hit jira");
+            artifactManager = rxtManager.getArtifactManager('iss');
+            artifact = artifactManager.get(resourceID);
+            adminService = carbon.server.osgiServices('org.wso2.carbon.utility.issuetracker.IIssueTracker');
+
+            for (var i=0;i<adminService.size();i++) {
+                var id = adminService.get(i).getIssueTrackerType();
+                if(id.toLocaleLowerCase() === artifact.attributes.overview_serverType.toLocaleLowerCase()){
+                    osgiService = adminService.get(i);
+                }
+            }
+            status = osgiService.isIssueTrackerProjectExist(artifact.attributes.interface_username,artifact.attributes.interface_password,projectName);
+
+            result = {
+                success: Boolean(status),
+                status: status
+            };
+
+            print(result);
+            osgiService=null;
+
+        }else if(projectType.toLocaleLowerCase() === 'redmine'){
+            log.info("hit redmine");
+            artifactManager = rxtManager.getArtifactManager('pms');
+            artifact = artifactManager.get(resourceID);
+            adminService = carbon.server.osgiServices('org.wso2.carbon.utility.projectmanagement.IProjectManagement');
+
+            for (var i=0;i<adminService.size();i++) {
+                var id = adminService.get(i).getPMSType();
+                if(id.toLocaleLowerCase() === artifact.attributes.overview_serverType.toLocaleLowerCase()){
+                    osgiService = adminService.get(i);
+                }
+            }
+            status = osgiService.isPMSProjectExist("","",projectName);
+            result = {
+                 success: Boolean(status),
+                 status: status
+            };
+
+            print(result);
+            osgiService=null;
+
+        }        });
+
+
+
+   /* routeManager.register('GET','publisher','/publisher/api/project/validatevcs/{repopath}',function(context){
+        //var shortName = context.params.type;
+        //var resourceID = context.params.id;
+        var repopath = context.params.repopath;
+
+        var artifactManager = rxtManager.getArtifactManager('vcs');
+        var artifact = artifactManager.get('bafd7305-15a4-4833-bf35-f5ad22b7d229');
+
+        var osgiService;
+        var repositoryAdminService = carbon.server.osgiServices('org.wso2.carbon.utility.versioncontrol.IRepository');
+        for (var i=0;i<repositoryAdminService.size();i++) {
+            var id = repositoryAdminService.get(i).getRepositoryType();
+            //print(id);
+            if(id.toLocaleLowerCase() == artifact.attributes.overview_serverType.toLocaleLowerCase()){
+                osgiService = repositoryAdminService.get(i);
+            }
+        }
+        var status = osgiService.isRepositoryExist(artifact.attributes.interface_username,artifact.attributes.interface_password,repopath);
+        //print(artifact);
+        //var status = osgiService.getRepositoryType();
+        //var resourceID = context.post['resourceID'];
+
+        var result = {
+            repopath: repopath,
+            success: Boolean(id),
+            id: status
+            //artifact: artifact
+        };
+
+        print(result);
+    });    */
+    var securityModule=require('/modules/security/security.manager.js').securityManagementModule();
+
+    var sm=securityModule.cached();
+
+//This will short circuit the handling of the requests
+    var passed=sm.check(session,function(){
+        response.sendError(401);
+    });
+
+//Stop servicing the request if the check failed
+    if(passed){
+
+        var user=require('store').user;
+        var publisher = require('/modules/publisher.js').publisher(request, session);
+
+        var rxtManager = publisher.rxtManager;
+        var modelManager = publisher.modelManager;
+        var tagModule=require('/modules/tag.management.js').tagModule();
+        routeManager.handle(request,response);
+    }
+
+}, request, response, session);
+%>

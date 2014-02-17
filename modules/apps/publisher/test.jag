@@ -1,0 +1,16 @@
+<%
+response.addHeader("Content-Type", "application/json");
+
+(function () {
+    var carbon = require('carbon');
+        var repositoryAdminService = carbon.server.osgiServices('org.wso2.carbon.utility.versioncontrol.IRepository');
+        var id = repositoryAdminService.get(1).getRepositoryType()
+
+        var result = {
+            success: Boolean(id),
+            id: id
+        };
+
+        print(result);
+})();
+%>

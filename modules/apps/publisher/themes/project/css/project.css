@@ -1,0 +1,36 @@
+#overview_provider, #Version {
+    display: none;
+}
+#Version {
+    display: block;
+}
+#Provider {
+    display: none;
+}
+
+#VersionControl,#VCSResourceID {
+    display: block;
+}
+
+#ProjectManagementTool,#PMSResourceID {
+    display: block;
+}
+
+#IssueTracker,#ISSResourceID {
+    display: block;
+}
+
+#ContinuousIntegration,#CISResourceID{
+    display: block;
+}
+
+#Tags, #tag-container {
+    display: none;
+}
+
+#toggle-action {
+    text-align: right;
+}
+
+
+
