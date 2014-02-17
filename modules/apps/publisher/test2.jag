@@ -1,0 +1,81 @@
+<%
+//response.addHeader("Content-Type", "application/json");
+ print("hi");
+
+require('/modules/publisher.js').exec(function (ctx) {
+
+      var config = require('/config/publisher.json');
+        var caramel = require('caramel');
+        var carbon = require('carbon');
+        var utility = require('/modules/utility.js').rxt_utility();
+
+        var router = require('/modules/router-g.js').router();
+        var routeManager = new router.Router();
+
+        var log = new Log();
+
+        log.info("hi");
+
+        var osgiService;
+        var artifactManager;
+        var artifact;
+        var adminService;
+        var status;
+        var result;
+
+      //  artifactManager = rxtManager.getArtifactManager('cis');
+       // artifact = artifactManager.get("6ca33257-0f57-4c55-a36c-182d309c848f");
+        adminService = carbon.server.osgiServices('org.wso2.carbon.utility.projectmanagement.IProjectManagement');
+
+      // adminService = carbon.server.osgiServices('org.wso2.carbon.utility.issuetracker.IIssueTracker');
+
+
+
+        log.info("admin "+ adminService);
+
+
+        for (var i = 0; i < adminService.size(); i++) {
+            var id = adminService.get(i).getPMSType();
+
+            if (id.toLocaleLowerCase() === "redmine") {
+                osgiService = adminService.get(i);
+                log.info("service "+osgiService);
+            }
+        }
+
+       // status =  osgiService.isIssueTrackerProjectExist("pubudud@wso2.com","lasalPd08?","carbon");
+        status = osgiService.isPMSProjectExist("","","Jaggery");
+         //status =osgiService.isCISProjectExist("test","test","http://localhost:8080/","carbon");
+
+        log.info(status);
+        result = {
+            success: Boolean(status),
+            status: status
+        };
+
+        print(result);
+        osgiService = null;
+
+         var securityModule=require('/modules/security/security.manager.js').securityManagementModule();
+
+            var sm=securityModule.cached();
+
+        //This will short circuit the handling of the requests
+            var passed=sm.check(session,function(){
+                response.sendError(401);
+            });
+
+        //Stop servicing the request if the check failed
+            if(passed){
+
+                var user=require('store').user;
+                var publisher = require('/modules/publisher.js').publisher(request, session);
+
+                var rxtManager = publisher.rxtManager;
+                var modelManager = publisher.modelManager;
+                var tagModule=require('/modules/tag.management.js').tagModule();
+                routeManager.handle(request,response);
+            }
+
+}, request, response, session);
+%>

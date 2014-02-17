@@ -35,14 +35,16 @@ require('/modules/publisher.js').exec(function(ctx) {
         if(projectType.toLocaleLowerCase() === 'svn' || projectType.toLocaleLowerCase() === 'github'){
             log.info("hit git");
             artifactManager = rxtManager.getArtifactManager('vcs');
+            log.info("vcs artifactManager "+artifactManager);
             artifact = artifactManager.get(resourceID);
-            log.info("artifact "+artifact);
+            log.info("vcs artifact "+artifact);
             adminService = carbon.server.osgiServices('org.wso2.carbon.utility.versioncontrol.IRepository');
-            log.info("git "+adminService);
+            log.info("git"+adminService);
             for (var i=0;i<adminService.size();i++) {
                 var id = adminService.get(i).getRepositoryType();
                 if(id.toLocaleLowerCase() === artifact.attributes.overview_serverType.toLocaleLowerCase()){
                     osgiService = adminService.get(i);
+                    log.info("service "+osgiService);
                 }
             }
             status = osgiService.isRepositoryExist(artifact.attributes.interface_username,artifact.attributes.interface_password,projectName);
@@ -58,14 +60,16 @@ require('/modules/publisher.js').exec(function(ctx) {
         }else if(projectType.toLocaleLowerCase() === 'bamboo' || projectType.toLocaleLowerCase() == 'jenkins'){
             log.info("hit jenkins");
             artifactManager = rxtManager.getArtifactManager('cis');
+            log.info("jenkins artifactManager : "+artifactManager) ;
             artifact = artifactManager.get(resourceID);
-            log.info("artifact "+artifact);
+            log.info("jenkins artifact "+artifact);
             adminService = carbon.server.osgiServices('org.wso2.carbon.utility.continuousintegration.IContinuousIntegration');
-            log.info("jenkins "+adminService);
+            log.info("jenkins"+adminService);
             for (var i=0;i<adminService.size();i++) {
                 var id = adminService.get(i).getCISType();
                 if(id.toLocaleLowerCase() === artifact.attributes.overview_serverType.toLocaleLowerCase()){
                     osgiService = adminService.get(i);
+                    log.info("service "+osgiService);
                 }
             }
             status = osgiService.isCISProjectExist(artifact.attributes.interface_username,artifact.attributes.interface_password,artifact.attributes.interface_serverURL,projectName);
@@ -81,16 +85,18 @@ require('/modules/publisher.js').exec(function(ctx) {
         }else if(projectType.toLocaleLowerCase() === 'jira'){
 
             artifactManager = rxtManager.getArtifactManager('iss');
-            artifact = artifactManager.get(resourceID);
+            log.info("jira artifactManager : "+artifactManager) ;
+            artifact = artifactManager.get("401c18de-4afb-4627-b094-4192b68eeb43");
+            log.info("jira artifact : "+artifact) ;
             adminService = carbon.server.osgiServices('org.wso2.carbon.utility.issuetracker.IIssueTracker');
-            log.info(adminService);
+            log.info("jira"+adminService);
             for (var i=0;i<adminService.size();i++) {
                var id = adminService.get(i).getIssueTrackerType();
                if(id.toLocaleLowerCase() === artifact.attributes.overview_serverType.toLocaleLowerCase()){
                    osgiService = adminService.get(i);
+                    log.info("service "+osgiService);
                }
             }
-            log.info(artifact.attributes.interface_username + " "+artifact.attributes.interface_password+" "+projectName);
             status = osgiService.isIssueTrackerProjectExist(artifact.attributes.interface_username,artifact.attributes.interface_password,projectName);
             log.info(status);
             result = {
@@ -99,25 +105,23 @@ require('/modules/publisher.js').exec(function(ctx) {
              };
 
              print(result);
-              osgiService=null;
+             osgiService=null;
 
         }else if(projectType.toLocaleLowerCase() === 'redmine'){
             log.info("hit Redmine");
             artifactManager = rxtManager.getArtifactManager('pms');
-            log.info(artifactManager) ;
-            artifact = artifactManager.get(resourceID);
+            log.info("redmine artifactManager : "+artifactManager) ;
+            artifact = artifactManager.get("6ca33257-0f57-4c55-a36c-182d309c848f");
+            log.info("redmine artifact : "+artifact) ;
             adminService = carbon.server.osgiServices('org.wso2.carbon.utility.projectmanagement.IProjectManagement');
-
+            log.info("redmine"+adminService) ;
             for (var i=0;i<adminService.size();i++) {
                 var id = adminService.get(i).getPMSType();
                 if(id.toLocaleLowerCase() === artifact.attributes.overview_serverType.toLocaleLowerCase()){
                     osgiService = adminService.get(i);
-                    log.info(osgiService);
+                    log.info("service "+osgiService);
                 }
             }
-            log.info(projectName);
-            log.info(artifact.attributes.interface_username);
-            log.info(artifact.attributes.interface_password);
             status = osgiService.isPMSProjectExist("","",projectName);
             log.info(status);
             result = {
