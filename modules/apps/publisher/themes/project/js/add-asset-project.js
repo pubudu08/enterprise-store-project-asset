@@ -34,13 +34,13 @@ $(function () {
         } else if (action == 3) {
             $(divId).html('<i class="icon-warning-sign" style="color:#FF0000"/> CI project already exist');
         } else if (action == 4) {
-            $(divId).html('<i class="icon-warning-sign" style="color:#FF0000"/> Issue Tracker project already exist');
+            $(divId).html('<i class="icon-warning-sign" style="color:#FF0000"/> ITS project already exist');
         } else if (action == 5) {
             $(divId).html('<i class="icon-warning-sign" style="color:#FF0000"/> PM project already exist');
         } else if (action == 6) {
             $(divId).html('<i class="icon-ok-circle" style="color:#008000"/> PM project will be created');
         } else if (action == 7) {
-            $(divId).html('<i class="icon-ok-circle" style="color:#008000"/>  Issue Tracker project will be created');
+            $(divId).html('<i class="icon-ok-circle" style="color:#008000"/>  ITS project will be created');
         } else if (action == 8) {
             $(divId).html('<i class="icon-ok-circle" style="color:#008000"/> CI project will be created');
         } else {
