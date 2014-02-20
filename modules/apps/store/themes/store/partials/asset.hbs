@@ -4,29 +4,7 @@
 <div class="asset-description">
     {{#with asset}}
         {{#attributes}}
-            <div class="asset-description-header">
-                <div class="row">
-                    <div class="span9">
-                        <div class="asset-banner">
-                            <img src="{{#if images_banner}}{{images_banner}}{{/if}}">
-                        </div>
-                        <div class="asset-introduction-box">
-                            <img src="{{#if images_thumbnail}}{{images_thumbnail}}{{/if}}">
 
-                            <h3>{{overview_name}}</h3>
-                            <small> {{t "Version"}} {{overview_version}}</small>
-                            <small> {{t "by"}} {{overview_provider}} </small>
-					<span class="asset-rating">
-                            <div style="width:{{../rating.ratingPx}}px"></div>
-                    </span>
-                          {{>asset-utilization ../../.}}
-                         </div>
-
-                    </div>
-
-                </div>
-
-            </div>
 
             <div class="assetp-properties">
 
@@ -42,7 +20,7 @@
                 <div class="tab-content">
                     <div class="tab-pane active" id="tab-properties">
                         <div class="content">
-                            {{>overview .}}
+                           <div ><iframe style="height:508px;width:870px;" src="http://10.100.5.44:9763/gadgets/ifr?url=http://10.100.5.44:9763/portal/gadgets/test-status/test-status.xml&onRemote=true&productId=3&productVersionId=33"></iframe><div>
                         </div>
                     </div>
                     <div class="tab-pane" id="tab-reviews">
