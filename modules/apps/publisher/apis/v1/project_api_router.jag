@@ -120,7 +120,10 @@ require('/modules/publisher.js').exec(function (ctx) {
 
                 }
             }
-            status = osgiService.isPMSProjectExist("", "", projectName);
+
+            log.info("Actual key :" +"cd1a2076f7d7a155a0e13e2b05553ac26e27eeb7" );
+            log.info("key :" +artifact.attributes.interface_apiKey );
+            status = osgiService.isPMSProjectExist(artifact.attributes.interface_serverURL, artifact.attributes.interface_apiKey, projectName);
 
             result = {
                 success: Boolean(status),

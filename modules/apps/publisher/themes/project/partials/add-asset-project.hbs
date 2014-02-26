@@ -107,9 +107,9 @@
                         	<b><label class="control-label">Version Server: </label></b>
                         			<div class="controls">
                         			    {{#each vcs.servers}}
-                                        	<input type="radio" checked value="{{this.attributes.overview_name}}" name="vcs" group="vcs" data-location="{{this.attributes.interface_serverURL}}" data-type="{{this.attributes.overview_serverType}}" data-ids="{{this.id}}"> {{this.attributes.overview_serverType}} </input></br/>
+                                        	<input type="radio"  checked value="{{this.attributes.overview_name}}" name="vcs" group="vcs" data-location="{{this.attributes.interface_serverURL}}" data-type="{{this.attributes.overview_serverType}}" data-ids="{{this.id}}"> {{this.attributes.overview_serverType}} </input></br/>
                                         {{/each}}
-                        				<br/><input class="span8" type='text' id='svn-location' name='svn-location'> <div style="display:inline-block" id="svn-hint"></div>
+                        				<br/><input class="span8" placeholder="Enter Repository Name" type='text' id='svn-location' name='svn-location'> <div style="display:inline-block" id="svn-hint"></div>
                         			</div>
                         </div>
                         {{/if}}
@@ -130,7 +130,7 @@
                         		{{#each cis.servers}}
                                      <input type="radio" value="{{this.attributes.overview_name}}" name="cis" group="cis" data-location="{{this.attributes.interface_serverURL}}" data-type="{{this.attributes.overview_serverType}}" data-ids="{{this.id}}"> {{this.attributes.overview_serverType}}</input></br/>
                                 {{/each}}
-                        		<br/><input class="span8" type='text' id='cis-location' name='cis-location'>  <div style="display:inline-block" id="cis-hint"></div>
+                        		<br/><input class="span8" placeholder="Enter Job Name" type='text' id='cis-location' name='cis-location'>  <div style="display:inline-block" id="cis-hint"></div>
                         	</div>
                         </div>
                         {{/if}}
@@ -142,7 +142,7 @@
                         		{{#each pms.servers}}
                                      <input type="radio" value="{{this.attributes.overview_name}}" name="pms" group="pms" data-location="{{this.attributes.interface_serverURL}}" data-type="{{this.attributes.overview_serverType}}" data-ids="{{this.id}}"> {{this.attributes.overview_serverType}} </input></br/>
                                 {{/each}}
-                        		<br/><input class="span8" type='text' id='pms-location' name='pms-location'>  <div style="display:inline-block" id="pms-hint"></div>
+                        		<br/><input class="span8" placeholder="Enter Project Name" type='text' id='pms-location' name='pms-location'>  <div style="display:inline-block" id="pms-hint"></div>
                         	</div>
                         </div>
                         {{/if}}
@@ -154,7 +154,7 @@
                         		{{#each iss.servers}}
                                      <input type="radio" value="{{this.attributes.overview_name}}" name="iss" group="iss" data-location="{{this.attributes.interface_serverURL}}" data-type="{{this.attributes.overview_serverType}}" data-ids="{{this.id}}"> {{this.attributes.overview_serverType}}</input></br/>
                                 {{/each}}
-                        		<br/><input class="span8" type='text' id='iss-location' name='iss-location'>   <div style="display:inline-block" id="iss-hint"></div>
+                        		<br/><input class="span8" placeholder="Enter Project Name" type='text' id='iss-location' name='iss-location'>   <div style="display:inline-block" id="iss-hint"></div>
                         	</div>
                         </div>
                         {{/if}}

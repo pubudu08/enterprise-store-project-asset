@@ -47,35 +47,34 @@
      </br></br>
     <div class="assetp-properties">
 
-        <ul class="nav nav-tabs" id="assetp-tabs" data-aid="{{../path}}">
+        <ul class="nav nav-tabs" id="assetp-tabs" >
             <li class="active">
-                <a href="#tab-github" data-toggle="tab" data-type="basic">{{t "GitHub Summary "}}</a>
+                <a href="#tab-github" data-toggle="tab" data-type="basic">{{t "GitHub"}}</a>
             </li>
             <li>
                 <a href="#tab-committer" data-toggle="tab" data-type="comments">{{t "GitHub Committer"}}</a>
             </li>
             <li>
-                <a href="#tab-qa" data-toggle="tab" data-type="comments">{{t "QA Summary"}}</a>
+                <a href="#tab-qa" data-toggle="tab" data-type="comments">{{t "QA "}}</a>
             </li>
             <li>
-                <a href="#tab-bamboo" data-toggle="tab" data-type="comments">{{t "Bamboo Summary"}}</a>
+                <a href="#tab-bamboo" data-toggle="tab" data-type="comments">{{t "Bamboo "}}</a>
             </li>
         </ul>
 
         <div class="tab-content">
             <div class="tab-pane active" id="tab-github">
-                <div class="content">
-                    <iframe height=500px width="100%" src="http://10.100.5.41:9764/gadgets/ifr?url=http://10.100.5.41:9764/portal/gadgets/git-commit-summary/git-commit-summary.xml&onRemote=true"></iframe>
-                </div>
+                   <iframe height=500px width="100%" src="http://10.100.5.41:9764/gadgets/ifr?url=http://10.100.5.41:9764/portal/gadgets/git-commit-summary/git-commit-summary.xml&onRemote=true&gitID=jaggery"></iframe>
+
             </div>
             <div class="tab-pane" id="tab-committer">
-                <iframe height=500px width="100%"  src="http://10.100.5.41:9764/gadgets/ifr?url=http://10.100.5.41:9764/portal/gadgets/git-project-summary/git-project-summary.xml&onRemote=true"></iframe>
+                <iframe height=500px width="100%"  src="http://10.100.5.41:9764/gadgets/ifr?url=http://10.100.5.41:9764/portal/gadgets/git-project-summary/git-project-summary.xml&onRemote=true&gitID=jaggery"></iframe>
             </div>
             <div class="tab-pane" id="tab-qa">
-                <iframe height=500px width="100%" src="http://10.100.5.44:9763/gadgets/ifr?url=http://10.100.5.44:9763/portal/gadgets/test-status/test-status.xml&onRemote=true&productId=3&productVersionId=33"></iframe>
+                <iframe height=800px width="100%" src="http://10.100.5.44:9763/gadgets/ifr?url=http://10.100.5.44:9763/portal/gadgets/test-status/test-status.xml&onRemote=true&productId=3&productVersionId=33"></iframe>
             </div>
             <div class="tab-pane" id="tab-bamboo">
-                <iframe height=500px width="100%" src="http://10.100.5.41:9764/gadgets/ifr?url=http://10.100.5.41:9764/portal/gadgets/bamboo-project-summary-new/bamboo-project-summary-new.xml&onRemote=true"></iframe>
+                <iframe height=500px width="100%" src="http://10.100.5.41:9764/gadgets/ifr?url=http://10.100.5.41:9764/portal/gadgets/bamboo-project-summary-new/bamboo-project-summary-new.xml&onRemote=true&bambooID=WSO2CARBON"></iframe>
             </div>
         </div>
 

@@ -9,23 +9,23 @@
 }
 
 #VersionControl,#VCSResourceID {
-    display: none;
+    display: block;
 }
 
 #ProjectManagementTool,#PMSResourceID {
-    display: none;
+    display: block;
 }
 
 #IssueTracker,#ISSResourceID {
-    display: none;
+    display: block;
 }
 
 #ContinuousIntegration,#CISResourceID{
-    display: none;
+    display: block;
 }
 
 #Tags, #tag-container {
-    display: none;
+    display: block;
 }
 
 #toggle-action {

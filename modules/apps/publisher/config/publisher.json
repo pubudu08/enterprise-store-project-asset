@@ -26,11 +26,7 @@
             "onAttach":{
                 "action":"Create"
             }
-        } , "ProjectLifeCycle":{
-                       "onAttach":{
-                           "action":"Create"
-                       }
-                   }
+        }
     },
 
     "paths": {
