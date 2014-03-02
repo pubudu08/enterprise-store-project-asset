@@ -1298,6 +1298,7 @@ ol.linenums li {
     position:fixed;
 }
 
+
 @media all and (max-width: 980px) {
     .asset {
         height: 217px !important;

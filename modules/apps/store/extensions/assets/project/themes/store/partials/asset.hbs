@@ -4,78 +4,105 @@
 <div>
     {{#with asset}} {{#attributes}}
 
-        <div class="row">
-            <div class="span12">
-                <h3>{{overview_name}}</h3>
-                <table width="100%" class="table table-striped table-hover">
+    <div class="row">
+        <div class="span12">
+            <h3>{{overview_name}}</h3>
+            <table width="100%" class="table table-striped table-hover">
 
-                    <tr>
-                        <td>{{t "Name"}}</td>
-                        <td>{{overview_name}}</td>
-                    </tr>
-                    <tr>
-                        <td>{{t "Description"}}</td>
-                        <td>{{overview_description}}</td>
-                    </tr>
-                    <tr>
-                        <td>{{t "Version"}}</td>
-                        <td>{{overview_version}}</td>
-                    </tr>
-                    <tr>
-                        <td>{{t "Version Control"}}</td>
-                        <td>{{other_versioncontrol}}</td>
-                    </tr>
-                    <tr>
-                        <td>{{t "Issue Tracker"}}</td>
-                        <td>{{other_issuetracker}}</td>
-                    </tr>
-                    <tr>
-                        <td>{{t "Project Management Tool"}}</td>
-                        <td>{{other_projectmanagementtool}}</td>
-                    </tr>
-                    <tr>
-                        <td>{{t "Continuous Integration"}}</td>
-                        <td>{{other_continuousintegration}}</td>
-                    </tr>
+                <tr>
+                    <td>{{t "Name"}}</td>
+                    <td>{{overview_name}}</td>
+                </tr>
+                <tr>
+                    <td>{{t "Description"}}</td>
+                    <td>{{overview_description}}</td>
+                </tr>
+                <tr>
+                    <td>{{t "Version"}}</td>
+                    <td>{{overview_version}}</td>
+                </tr>
+                <tr>
+                    <td>{{t "Version Control"}}</td>
+                    <td><a target="_blank" href="{{other_versionControl}}">{{other_versionControl}}</a>  </td>
+                </tr>
+                <tr>
+                    <td>{{t "Issue Tracker"}}</td>
+                    <td><a target="_blank" href="{{other_issueTracker}}">{{other_issueTracker}} </a>  </td>
+                </tr>
+                <tr>
+                    <td>{{t "Project Management Tool"}}</td>
+                    <td><a target="_blank" href="{{other_projectManagementTool}}">{{other_projectManagementTool}} </a>   </td>
+                </tr>
+                <tr>
+                    <td>{{t "Continuous Integration"}}</td>
+                    <td><a target="_blank" href="{{other_continuousIntegration}}">{{other_continuousIntegration}} </a>    </td>
+                </tr>
 
-                </table>
-            </div>
-
+            </table>
         </div>
 
+    </div>
 
-     </br></br>
+
+
+
+    </br>
+    </br>
     <div class="assetp-properties">
 
-        <ul class="nav nav-tabs" id="assetp-tabs" >
+        <ul class="nav nav-tabs" id="assetp-tabs" data-aid="{{../path}}">
             <li class="active">
-                <a href="#tab-github" data-toggle="tab" data-type="basic">{{t "GitHub"}}</a>
+                <a href="#tab-vcs" data-toggle="tab" data-type="basic">{{t "Commits Summary "}}</a>
+            </li>
+
+            <li>
+                <a href="#tab-vcs_2" data-toggle="tab" data-type="basic">{{t "Top Contributor"}}</a>
             </li>
             <li>
-                <a href="#tab-committer" data-toggle="tab" data-type="comments">{{t "GitHub Committer"}}</a>
+                <a href="#tab-cis" data-toggle="tab" data-type="basic">{{t "Build Summary"}}</a>
             </li>
+
             <li>
-                <a href="#tab-qa" data-toggle="tab" data-type="comments">{{t "QA "}}</a>
+                <a href="#tab-qa" data-toggle="tab" data-type="basic">{{t "Tests Summary"}}</a>
             </li>
-            <li>
-                <a href="#tab-bamboo" data-toggle="tab" data-type="comments">{{t "Bamboo "}}</a>
-            </li>
+
+
         </ul>
 
         <div class="tab-content">
-            <div class="tab-pane active" id="tab-github">
-                   <iframe height=500px width="100%" src="http://10.100.5.41:9764/gadgets/ifr?url=http://10.100.5.41:9764/portal/gadgets/git-commit-summary/git-commit-summary.xml&onRemote=true&gitID=jaggery"></iframe>
 
+            <div class="tab-pane active" id="tab-vcs">
+                <div class="content">
+                    <div style="text-align:center;"><a class="btn btn-default" target="_blank" href="https://ec2-54-205-154-153.compute-1.amazonaws.com:9643/Build-Status-Dashboard/index.jag?gitID=carbon-kernel&bambooURL=http://wso2.org/bamboo/WSO2CARBON"> Visit Build Status Dashboard </a>
+                    </div>
+                    <iframe height=500px width="100%" src="http://ec2-54-205-154-153.compute-1.amazonaws.com:9963/gadgets/ifr?url=http://ec2-54-205-154-153.compute-1.amazonaws.com:9963/portal/gadgets/git-commit-summary/git-commit-summary.xml&onRemote=true&gitID={{overview_name}}"></iframe>
+                </div>
             </div>
-            <div class="tab-pane" id="tab-committer">
-                <iframe height=500px width="100%"  src="http://10.100.5.41:9764/gadgets/ifr?url=http://10.100.5.41:9764/portal/gadgets/git-project-summary/git-project-summary.xml&onRemote=true&gitID=jaggery"></iframe>
+
+            <div class="tab-pane" id="tab-vcs_2">
+                <div class="content">
+                    <div style="text-align:center;margin-bottom:15px;"><a class="btn btn-default" target="_blank" href="https://ec2-54-205-154-153.compute-1.amazonaws.com:9643/Build-Status-Dashboard/index.jag?gitID=carbon-kernel&bambooURL=http://wso2.org/bamboo/WSO2CARBON"> Visit Build Status Dashboard </a>
+                    </div>
+                    <iframe height=500px width="100%" src="http://ec2-54-205-154-153.compute-1.amazonaws.com:9963/gadgets/ifr?url=http://ec2-54-205-154-153.compute-1.amazonaws.com:9963/portal/gadgets/git-project-summary/git-project-summary.xml&onRemote=true&gitID={{overview_name}}"></iframe>
+                </div>
             </div>
-            <div class="tab-pane" id="tab-qa">
-                <iframe height=800px width="100%" src="http://10.100.5.44:9763/gadgets/ifr?url=http://10.100.5.44:9763/portal/gadgets/test-status/test-status.xml&onRemote=true&productId=3&productVersionId=33"></iframe>
+
+            <div class="tab-pane" id="tab-cis">
+                <div class="content">
+                    <div style="text-align:center;margin-bottom:15px;"><a class="btn btn-default" target="_blank" href="https://ec2-54-205-154-153.compute-1.amazonaws.com:9643/Build-Status-Dashboard/index.jag?gitID=carbon-kernel&bambooURL=http://wso2.org/bamboo/WSO2CARBON"> Visit Build Status Dashboard </a>
+                    </div>
+                    <iframe height=500px width="100%" src="http://ec2-54-205-154-153.compute-1.amazonaws.com:9963/gadgets/ifr?url=http://ec2-54-205-154-153.compute-1.amazonaws.com:9963/portal/gadgets/bamboo-project-summary-new/bamboo-project-summary-new.xml&onRemote=true&bambooURL={{other_continuousIntegration}}"></iframe>
+                </div>
             </div>
-            <div class="tab-pane" id="tab-bamboo">
-                <iframe height=500px width="100%" src="http://10.100.5.41:9764/gadgets/ifr?url=http://10.100.5.41:9764/portal/gadgets/bamboo-project-summary-new/bamboo-project-summary-new.xml&onRemote=true&bambooID=WSO2CARBON"></iframe>
+
+            <div class="tab-pane active" id="tab-qa">
+                <div class="content">
+                    <div style="text-align:center;"><a class="btn btn-default" target="_blank" href="https://ec2-54-205-154-153.compute-1.amazonaws.com:9643/QADashboard/index.jag?projectId=7"> Visit QA Dashboard </a>
+                    </div>
+                    <iframe height=500px width="100%" src="http://ec2-54-205-154-153.compute-1.amazonaws.com:9963/gadgets/ifr?url=http://ec2-54-205-154-153.compute-1.amazonaws.com:9963/portal/gadgets/test-status/test-status.xml&onRemote=true&productId=3&productVersionId={{overview_name}}"></iframe>
+                </div>
             </div>
+
         </div>
 
     </div>

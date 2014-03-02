@@ -84,7 +84,7 @@ require('/modules/publisher.js').exec(function (ctx) {
 
             artifactManager = rxtManager.getArtifactManager('iss');
 
-            artifact = artifactManager.get("401c18de-4afb-4627-b094-4192b68eeb43");
+            artifact = artifactManager.get(resourceID);
 
             adminService = carbon.server.osgiServices('org.wso2.carbon.utility.issuetracker.IIssueTracker');
 
@@ -95,7 +95,7 @@ require('/modules/publisher.js').exec(function (ctx) {
 
                 }
             }
-            status = osgiService.isIssueTrackerProjectExist(artifact.attributes.interface_username, artifact.attributes.interface_password, projectName);
+            status = osgiService.isIssueTrackerProjectExist(artifact.attributes.interface_username, artifact.attributes.interface_password, projectName,artifact.attributes.interface_serverURL);
 
             result = {
                 success: Boolean(status),
@@ -108,9 +108,7 @@ require('/modules/publisher.js').exec(function (ctx) {
         } else if (projectType.toLocaleLowerCase() === 'redmine') {
 
             artifactManager = rxtManager.getArtifactManager('pms');
-
-            artifact = artifactManager.get("6ca33257-0f57-4c55-a36c-182d309c848f");
-
+            artifact = artifactManager.get(resourceID);
             adminService = carbon.server.osgiServices('org.wso2.carbon.utility.projectmanagement.IProjectManagement');
 
             for (var i = 0; i < adminService.size(); i++) {
@@ -120,9 +118,6 @@ require('/modules/publisher.js').exec(function (ctx) {
 
                 }
             }
-
-            log.info("Actual key :" +"cd1a2076f7d7a155a0e13e2b05553ac26e27eeb7" );
-            log.info("key :" +artifact.attributes.interface_apiKey );
             status = osgiService.isPMSProjectExist(artifact.attributes.interface_serverURL, artifact.attributes.interface_apiKey, projectName);
 
             result = {
