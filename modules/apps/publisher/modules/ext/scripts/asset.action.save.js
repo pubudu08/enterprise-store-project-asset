@@ -109,7 +109,7 @@ var module = function () {
         var rxtManager = context.rxtManager;
         var issueTrackerResourceId = model.getField('Other.ISSResourceID').value;
         var issueTrackerEndPoint = model.getField('Other.IssueTracker').value;
-        issueTrackerEndPoint = issueTrackerEndPoint.substring((issueTrackerEndPoint.lastIndexOf("/") + 1), (issueTrackerEndPoint.length + 1));
+        var projectName = issueTrackerEndPoint.substring((issueTrackerEndPoint.lastIndexOf("/") + 1), (issueTrackerEndPoint.length + 1));
         var artifactManager = rxtManager.getArtifactManager('iss');
         if (issueTrackerResourceId !== null) {
             var artifact = artifactManager.get(issueTrackerResourceId);
@@ -125,7 +125,7 @@ var module = function () {
             }
             //String projectKey,String name,String description,String url,String lead
             log.info(artifact.attributes.interface_username + " " + artifact.attributes.interface_password + " " + issueTrackerEndPoint + " " + issueTrackerResourceId);
-            var status = osgiService.createIssueTrackerProject(artifact.attributes.interface_username, artifact.attributes.interface_password, issueTrackerEndPoint, issueTrackerEndPoint, issueTrackerEndPoint, "", artifact.attributes.interface_username);
+            var status = osgiService.createIssueTrackerProject(artifact.attributes.interface_username, artifact.attributes.interface_password, projectName, projectName, " <Add Description Here> ", issueTrackerEndPoint, artifact.attributes.interface_username);
 
             var result = {
                 success: Boolean(status),

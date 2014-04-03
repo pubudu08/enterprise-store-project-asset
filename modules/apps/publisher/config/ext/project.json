@@ -106,7 +106,7 @@
 
     "storage": {
 
-        "images_banner": {
+        "images_icon": {
 
             "lifecycle": {
                 "created": ["Internal/private_{overview_provider}"],

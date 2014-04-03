@@ -4,6 +4,9 @@
 #Version {
     display: block;
 }
+#VersionControlType,#ProjectManagementToolType,#ContinuousIntegrationType,#IssueTrackerType {
+    display: none;
+}
 #Provider {
     display: none;
 }

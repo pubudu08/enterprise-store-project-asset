@@ -24,12 +24,22 @@ require('/modules/publisher.js').exec(function (ctx) {
 
         var projectName = context.post['projectName'];
         var projectType = context.post['projectType'];
+        var superuserService;
+        var superUserOSGIService;
         var osgiService;
         var artifactManager;
         var artifact;
         var adminService;
         var status;
         var result;
+
+        superuserService =carbon.server.osgiServices('org.wso2.carbon.dev.govern.extractor.IPropertyExtractor');
+        if(superuserService !== null){
+          for (var i = 0; i < superuserService.size(); i++) {
+              superUserOSGIService = superuserService.get(i);
+
+        } }
+
 
         if (projectType.toLocaleLowerCase() === 'svn' || projectType.toLocaleLowerCase() === 'github') {
             artifactManager = rxtManager.getArtifactManager('vcs');
@@ -45,7 +55,11 @@ require('/modules/publisher.js').exec(function (ctx) {
 
                 }
             }
-            status = osgiService.isRepositoryExist(artifact.attributes.interface_username, artifact.attributes.interface_password, projectName);
+            if(projectType.toLocaleLowerCase() === 'svn' ){
+                status = osgiService.isRepositoryExist(superUserOSGIService.getAPIConfigDetails().getSvnUsername(),superUserOSGIService.getAPIConfigDetails().getSvnPassword(),projectName);
+            }else if(projectType.toLocaleLowerCase() === 'github' ){
+                 status = osgiService.isRepositoryExist(superUserOSGIService.getAPIConfigDetails().getGitHubUsername(),superUserOSGIService.getAPIConfigDetails().getGitHubPassword(),projectName);
+            }
 
             result = {
                 success: Boolean(status),
@@ -55,7 +69,7 @@ require('/modules/publisher.js').exec(function (ctx) {
             print(result);
             osgiService = null;
 
-        } else if (projectType.toLocaleLowerCase() === 'bamboo' || projectType.toLocaleLowerCase() == 'jenkins') {
+        } else if (projectType.toLocaleLowerCase() === 'bamboo' || projectType.toLocaleLowerCase() === 'jenkins') {
 
             artifactManager = rxtManager.getArtifactManager('cis');
 
@@ -70,7 +84,13 @@ require('/modules/publisher.js').exec(function (ctx) {
 
                 }
             }
-            status = osgiService.isCISProjectExist(artifact.attributes.interface_username, artifact.attributes.interface_password, artifact.attributes.interface_serverURL, projectName);
+            if(projectType.toLocaleLowerCase() === 'bamboo' ){
+                status = osgiService.isCISProjectExist(superUserOSGIService.getAPIConfigDetails().getBambooUsername(), superUserOSGIService.getAPIConfigDetails().getBambooPassword(), artifact.attributes.interface_serverURL,projectName);
+            }else if(projectType.toLocaleLowerCase() === 'jenkins' ){
+                 status = osgiService.isCISProjectExist(superUserOSGIService.getAPIConfigDetails().getJenkinsUsername(), superUserOSGIService.getAPIConfigDetails().getJenkinsPassword(), artifact.attributes.interface_serverURL,projectName);
+            }
+
+
 
             result = {
                 success: Boolean(status),
@@ -95,7 +115,11 @@ require('/modules/publisher.js').exec(function (ctx) {
 
                 }
             }
-            status = osgiService.isIssueTrackerProjectExist(artifact.attributes.interface_username, artifact.attributes.interface_password, projectName,artifact.attributes.interface_serverURL);
+            var jiraProjectName = projectName.substring((projectName.lastIndexOf("/") + 1), (projectName.length + 1));
+            if(projectType.toLocaleLowerCase() === 'jira' ){
+                  status = osgiService.isIssueTrackerProjectExist(superUserOSGIService.getAPIConfigDetails().getJiraUsername(), superUserOSGIService.getAPIConfigDetails().getJiraUsername(), jiraProjectName,projectName);
+            }
+
 
             result = {
                 success: Boolean(status),
@@ -118,7 +142,10 @@ require('/modules/publisher.js').exec(function (ctx) {
 
                 }
             }
-            status = osgiService.isPMSProjectExist(artifact.attributes.interface_serverURL, artifact.attributes.interface_apiKey, projectName);
+            if(projectType.toLocaleLowerCase() === 'redmine' ){
+            status = osgiService.isPMSProjectExist(artifact.attributes.interface_serverURL, superUserOSGIService.getAPIConfigDetails().getRedmineUsername(),superUserOSGIService.getAPIConfigDetails().getRedminePassword(), projectName);
+
+            }
 
             result = {
                 success: Boolean(status),
@@ -128,10 +155,8 @@ require('/modules/publisher.js').exec(function (ctx) {
             print(result);
             osgiService = null;
 
-        } else {
-
         }
-    });
+   });
 
     var securityModule = require('/modules/security/security.manager.js').securityManagementModule();
 

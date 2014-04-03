@@ -30,19 +30,13 @@ $(function () {
         if (action == 1) {
             $(divId).html('<i class="icon-ok-circle" style="color:#008000"/>');
         } else if (action == 2) {
-            $(divId).html('<i class="icon-warning-sign" style="color:#FF0000"/> Repository already exist');
+            $(divId).html('<i class="icon-warning-sign" style="color:#FF0000"/> Repository already exists');
         } else if (action == 3) {
-            $(divId).html('<i class="icon-warning-sign" style="color:#FF0000"/> project already exist');
+            $(divId).html('<i class="icon-warning-sign" style="color:#FF0000"/> project already exists');
         } else if (action == 4) {
-            $(divId).html('<i class="icon-warning-sign" style="color:#FF0000"/> Job already exist');
+            $(divId).html('<i class="icon-warning-sign" style="color:#FF0000"/> Job already exists');
         } else if (action == 5) {
-            $(divId).html('<i class="icon-warning-sign" style="color:#FF0000"/> project already exist');
-        } else if (action == 6) {
-            $(divId).html('<i class="icon-ok-circle" style="color:#008000"/>');
-        } else if (action == 7) {
-            $(divId).html('<i class="icon-ok-circle" style="color:#008000"/>');
-        } else if (action == 8) {
-            $(divId).html('<i class="icon-ok-circle" style="color:#008000"/>');
+            $(divId).html('<i class="icon-ok-circle" style="color:#008000"/> Please create project manually');
         } else {
             $(divId).html('<i class="icon-remove-circle" style="color:#FF0000"/> Operation failed');
         }
@@ -80,6 +74,7 @@ $(function () {
             var resourceID = $('input[name=vcs]:checked').data('ids');
             $('input[name=other_vcsresourceid]').val(resourceID);
             $('input[name=other_versioncontrol]').val(vLocation);
+            $('input[name=other_versioncontroltype]').val(resourceType);
         } else {
             alert('Please select one of the version control server');
             return false;
@@ -116,6 +111,7 @@ $(function () {
             var resourceID = $('input[name=cis]:checked').data('ids');
             $('input[name=other_cisresourceid]').val(resourceID);
             $('input[name=other_continuousintegration]').val(cLocation)
+            $('input[name=other_continuousintegrationtype]').val(cResourceType);
         } else {
             //alert(cLocation)
         }
@@ -139,6 +135,7 @@ $(function () {
             var resourceID = $('input[name=pms]:checked').data('ids');
             $('input[name=other_pmsresourceid]').val(resourceID);
             $('input[name=other_projectmanagementtool]').val(pLocation)
+            $('input[name=other_projectmanagementtooltype]').val(pResourceType)
         } else {
             //alert(pLocation)
         }
@@ -148,14 +145,15 @@ $(function () {
         if (iLocation) {
             var repoName = $('input[name=iss-location]').val();
             if (iResourceType.toLowerCase() == 'jira') {
+            iLocation = iLocation.replace("/secure/Dashboard.jspa", "/browse");
                 var locationEndWith = endsWith(iLocation, '/');
                 var repoStartsWith = startsWith(repoName, '/');
                 if (locationEndWith) {
-                    iLocation = iLocation + 'browse/' + repoName
+                    iLocation = iLocation +  repoName
                 } else if (repoStartsWith) {
-                    iLocation = iLocation + 'browse' + repoName
+                    iLocation = iLocation + repoName
                 } else {
-                    iLocation = iLocation + '/browse/' + repoName
+                    iLocation = iLocation +"/"+  repoName
                 }
 
 
@@ -164,6 +162,7 @@ $(function () {
 
             var resourceID = $('input[name=iss]:checked').data('ids');
             $('input[name=other_issresourceid]').val(resourceID);
+            $('input[name=other_issuetrackertype]').val(iResourceType)
             $('input[name=other_issuetracker]').val(iLocation)
         } else {
             //alert(iLocation)
@@ -252,11 +251,8 @@ $(function () {
         typingTimer = setTimeout(function () {
         if(cITrigger){
             var cIResourceID = $('input[name=cis]:checked').data('ids');
-            console.log(cIResourceID);
             var cLocation = $('input[name=cis]:checked').data('location');
-            console.log(cLocation);
             var resourceType = $('input[name=cis]:checked').data('type');
-            console.log(resourceType);
 
             if(cIResourceID){
                 var cIJobName = $('input[name=cis-location]').val();
@@ -271,7 +267,7 @@ $(function () {
                             cLocation = cLocation + '/job/' + cIJobName
                         }
 
-                 } else if (cResourceType.toLowerCase() === 'bamboo') {
+                 } else if (resourceType.toLowerCase() === 'bamboo') {
                     cLocation = cLocation.replace("/allPlans.action", "/browse/");
                     var locationEndWith = endsWith(cLocation, '/');
                     var repoStartsWith = startsWith(cIJobName, '/');
@@ -282,8 +278,9 @@ $(function () {
                         } else {
                            cLocation = cLocation + cIJobName
                         }
+                        //temporary
+                        cIJobName = cLocation;
                  }
-                    console.log(cIJobName);
                     $.ajax({
                         url: '/publisher/api/project/validate/' + cIResourceID,
                         type: 'POST',
@@ -293,15 +290,19 @@ $(function () {
                         },
                         success: function (response) {
                             var obj = $.parseJSON(response);
-                            console.log(response);
                             if (!obj.status) {
-                                //alert('repository location will be created');
-                                doneTyping('#cis-hint', 8);
+                                //alert('job will be created');
+                                  if (resourceType.toLowerCase() === 'jenkins') {
+                                       doneTyping('#cis-hint', 1);
+                                  }else if (resourceType.toLowerCase() === 'bamboo') {
+                                      doneTyping('#cis-hint', 5);
+                                  }
+
                                 processInformation();
                                 //alert(resourceID)
                             } else {
-                                //alert('repository location already exist');
-                                doneTyping('#cis-hint', 3);
+                                //alert('job already exist');
+                                doneTyping('#cis-hint', 4);
                                 processInformation();
                             }
 
@@ -361,13 +362,13 @@ $(function () {
                         success: function (response) {
                             var obj = $.parseJSON(response);
                             if (!obj.status) {
-                                //alert('repository location will be created');
-                                doneTyping('#pms-hint', 6);
+                                //alert('project location will be created');
+                                doneTyping('#pms-hint', 1);
                                 processInformation();
                                 //alert(resourceID)
                             } else {
-                                //alert('repository location already exist');
-                                doneTyping('#pms-hint', 5);
+                                //alert('project location already exist');
+                                doneTyping('#pms-hint', 3);
                                 processInformation();
                             }
 
@@ -401,14 +402,15 @@ $(function () {
                 if (resourceID) {
                     var repoName = $('input[name=iss-location]').val();
                     if (resourceType.toLocaleLowerCase() == 'jira') {
+                      vLocation = vLocation.replace("/secure/Dashboard.jspa","/browse/");
                         var locationEndWith = endsWith(vLocation, '/');
                         var repoStartsWith = startsWith(repoName, '/');
                         if (locationEndWith) {
-                             vLocation = vLocation + 'browse/' + repoName
+                             vLocation = vLocation +repoName
                         } else if (repoStartsWith) {
-                            vLocation = vLocation + 'browse' + repoName
+                            vLocation = vLocation + repoName
                         } else {
-                            vLocation = vLocation + '/browse/' + repoName
+                            vLocation = vLocation + repoName
                         }
                     } else {
                         vLocation = repoName;
@@ -418,19 +420,19 @@ $(function () {
                         url: '/publisher/api/project/validate/' + resourceID,
                         type: 'POST',
                         data: {
-                            projectName: repoName,
+                            projectName: vLocation,
                             projectType: resourceType,
                         },
                         success: function (response) {
                             var obj = $.parseJSON(response);
                             if (!obj.status) {
-                                //alert('repository location will be created');
-                                doneTyping('#iss-hint', 7);
+                                //alert('project location will be created');
+                                doneTyping('#iss-hint',1);
                                 processInformation();
                                 //alert(resourceID)
                             } else {
-                                //alert('repository location already exist');
-                                doneTyping('#iss-hint', 4);
+                                //alert('project location already exist');
+                                doneTyping('#iss-hint', 3);
                                 processInformation();
                             }
 
@@ -465,61 +467,7 @@ $(function () {
     $('#btn-create-asset').on('click', function () {
         processInformation();
 
-
-
-
-        //alert('aaaaaaaaaaaaaaaa');
-
-        //
-
-        /*var fields=$('#form-asset-create :input');
-       var data={};
-       fields.each(function(){
-           if(this.type!='button')
-           {
-               //console.log(this.value);
-               data[this.id]=this.value;
-           }
-       });
-
-       $.ajax({
-           url:'/publisher/asset/'+type,
-           type:'POST',
-           data: data,
-           success:function(response){
-               alert('asset added.');
-               window.location='/publisher/assets/'+type+'/';
-           },
-           error:function(response){
-               alert('Failed to add asset.');
-           }
-       });  */
-
-        /*var fields=$('#form-asset-create :input');
-            var data={};
-            fields.each(function(){
-            if(this.type!='button')
-            {
-            //console.log(this.value);
-            data[this.id]=this.value;
-        }
-        });
-
-        $.ajax({
-            url:'/publisher/asset/'+type,
-            type:'POST',
-            data: data,
-            success:function(response){
-                alert('asset added.');
-                window.location='/publisher/assets/'+type+'/';
-            },
-            error:function(response){
-                alert('Failed to add asset.');
-            }
-        }); */
-
     });
-    //}
 
 
 

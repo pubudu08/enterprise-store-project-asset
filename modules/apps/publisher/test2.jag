@@ -1,81 +1,77 @@
 <%
 //response.addHeader("Content-Type", "application/json");
- print("hi");
+print("hi");
 
 require('/modules/publisher.js').exec(function (ctx) {
 
-      var config = require('/config/publisher.json');
-        var caramel = require('caramel');
-        var carbon = require('carbon');
-        var utility = require('/modules/utility.js').rxt_utility();
+    var config = require('/config/publisher.json');
+    var caramel = require('caramel');
+    var carbon = require('carbon');
+    var utility = require('/modules/utility.js').rxt_utility();
 
-        var router = require('/modules/router-g.js').router();
-        var routeManager = new router.Router();
+    var router = require('/modules/router-g.js').router();
+    var routeManager = new router.Router();
 
-        var log = new Log();
-
-        log.info("hi");
-
-        var osgiService;
-        var artifactManager;
-        var artifact;
-        var adminService;
-        var status;
-        var result;
-
-      //  artifactManager = rxtManager.getArtifactManager('cis');
-       // artifact = artifactManager.get("6ca33257-0f57-4c55-a36c-182d309c848f");
-        adminService = carbon.server.osgiServices('org.wso2.carbon.utility.projectmanagement.IProjectManagement');
-
-      // adminService = carbon.server.osgiServices('org.wso2.carbon.utility.issuetracker.IIssueTracker');
+    var log = new Log();
 
 
+    var osgiService;
+    var artifactManager;
+    var artifact;
+    var adminService;
+    var superuserService;
+    var status;
+    var result;
+    superuserService = carbon.server.osgiServices('org.wso2.carbon.dev.govern.extractor.IPropertyExtractor');
+    for (var i = 0; i < superuserService.size(); i++) {
 
-        log.info("admin "+ adminService);
+        osgiService = superuserService.get(i);
 
+    }
 
-        for (var i = 0; i < adminService.size(); i++) {
-            var id = adminService.get(i).getPMSType();
+    log.info("" + superuserService);
+    log.info("jenkins username = " + osgiService.getAPIConfigDetails().getJenkinsUsername());
+    log.info("jenkins password = " + osgiService.getAPIConfigDetails().getJenkinsPassword());
+    log.info("bamboo username = " + osgiService.getAPIConfigDetails().getBambooUsername());
+    log.info("bamboo password = " + osgiService.getAPIConfigDetails().getBambooPassword());
+    log.info("redmine username = " + osgiService.getAPIConfigDetails().getRedmineUsername());
+    log.info("redmine password = " + osgiService.getAPIConfigDetails().getRedminePassword());
+    log.info("Jira username = " + osgiService.getAPIConfigDetails().getJiraUsername());
+    log.info("Jira password = " + osgiService.getAPIConfigDetails().getJiraPassword());
+    log.info("GitHub username = " + osgiService.getAPIConfigDetails().getGitHubUsername());
+    log.info("GitHub password = " + osgiService.getAPIConfigDetails().getGitHubPassword());
+    log.info("SVN username = " + osgiService.getAPIConfigDetails().getSvnUsername());
+    log.info("SVN password = " + osgiService.getAPIConfigDetails().getSvnPassword());
 
-            if (id.toLocaleLowerCase() === "redmine") {
-                osgiService = adminService.get(i);
-                log.info("service "+osgiService);
-            }
-        }
+    log.info(status);
+    result = {
+        success: Boolean(status),
+        status: status
+    };
 
-       // status =  osgiService.isIssueTrackerProjectExist("pubudud@wso2.com","lasalPd08?","carbon");
-        status = osgiService.isPMSProjectExist("","","Jaggery");
-         //status =osgiService.isCISProjectExist("test","test","http://localhost:8080/","carbon");
+    print(result);
+    osgiService = null;
 
-        log.info(status);
-        result = {
-            success: Boolean(status),
-            status: status
-        };
+    var securityModule = require('/modules/security/security.manager.js').securityManagementModule();
 
-        print(result);
-        osgiService = null;
+    var sm = securityModule.cached();
 
-         var securityModule=require('/modules/security/security.manager.js').securityManagementModule();
+    //This will short circuit the handling of the requests
+    var passed = sm.check(session, function () {
+        response.sendError(401);
+    });
 
-            var sm=securityModule.cached();
+    //Stop servicing the request if the check failed
+    if (passed) {
 
-        //This will short circuit the handling of the requests
-            var passed=sm.check(session,function(){
-                response.sendError(401);
-            });
+        var user = require('store').user;
+        var publisher = require('/modules/publisher.js').publisher(request, session);
 
-        //Stop servicing the request if the check failed
-            if(passed){
-
-                var user=require('store').user;
-                var publisher = require('/modules/publisher.js').publisher(request, session);
-
-                var rxtManager = publisher.rxtManager;
-                var modelManager = publisher.modelManager;
-                var tagModule=require('/modules/tag.management.js').tagModule();
-                routeManager.handle(request,response);
-            }
+        var rxtManager = publisher.rxtManager;
+        var modelManager = publisher.modelManager;
+        var tagModule = require('/modules/tag.management.js').tagModule();
+        routeManager.handle(request, response);
+    }
 
 }, request, response, session);
 %>
