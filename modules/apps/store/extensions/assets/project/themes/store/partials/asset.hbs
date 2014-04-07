@@ -23,19 +23,23 @@
                 </tr>
                 <tr>
                     <td>{{t "Version Control"}}</td>
-                    <td><a target="_blank" href="{{other_versionControl}}">{{other_versionControl}}</a>  </td>
+                    <td><a target="_blank" href="{{other_versionControl}}">{{other_versionControl}}</a>
+                    </td>
                 </tr>
                 <tr>
                     <td>{{t "Issue Tracker"}}</td>
-                    <td><a target="_blank" href="{{other_issueTracker}}">{{other_issueTracker}} </a>  </td>
+                    <td><a target="_blank" href="{{other_issueTracker}}">{{other_issueTracker}} </a>
+                    </td>
                 </tr>
                 <tr>
                     <td>{{t "Project Management Tool"}}</td>
-                    <td><a target="_blank" href="{{other_projectManagementTool}}">{{other_projectManagementTool}} </a>   </td>
+                    <td><a target="_blank" href="{{other_projectManagementTool}}">{{other_projectManagementTool}} </a>
+                    </td>
                 </tr>
                 <tr>
                     <td>{{t "Continuous Integration"}}</td>
-                    <td><a target="_blank" href="{{other_continuousIntegration}}">{{other_continuousIntegration}} </a>    </td>
+                    <td><a target="_blank" href="{{other_continuousIntegration}}">{{other_continuousIntegration}} </a>
+                    </td>
                 </tr>
 
             </table>
@@ -52,18 +56,19 @@
 
         <ul class="nav nav-tabs" id="assetp-tabs" data-aid="{{../path}}">
             <li class="active">
-                <a href="#tab-vcs" data-toggle="tab" data-type="basic">{{t "Commits Summary "}}</a>
-            </li>
-
-            <li>
-                <a href="#tab-vcs_2" data-toggle="tab" data-type="basic">{{t "Top Contributor"}}</a>
+                <a href="#tab-source" data-toggle="tab" data-type="basic">{{t "Source Status "}}</a>
             </li>
             <li>
-                <a href="#tab-cis" data-toggle="tab" data-type="basic">{{t "Build Summary"}}</a>
+                <a href="#tab-commit" data-toggle="tab" data-type="basic">{{t "Top Contributor "}}</a>
             </li>
-
             <li>
-                <a href="#tab-qa" data-toggle="tab" data-type="basic">{{t "Tests Summary"}}</a>
+                <a href="#tab-build" data-toggle="tab" data-type="basic">{{t "Build Status"}}</a>
+            </li>
+            <li>
+                <a href="#tab-code" data-toggle="tab" data-type="basic">{{t "Code Coverage"}}</a>
+            </li>
+            <li class="active">
+                <a href="#tab-test" data-toggle="tab" data-type="basic">{{t "Test Status"}}</a>
             </li>
 
 
@@ -71,35 +76,39 @@
 
         <div class="tab-content">
 
-            <div class="tab-pane active" id="tab-vcs">
+            <div class="tab-pane active" id="tab-source">
                 <div class="content">
-                    <div style="text-align:center;"><a class="btn btn-default" target="_blank" href="https://ec2-54-205-154-153.compute-1.amazonaws.com:9643/Build-Status-Dashboard/index.jag?gitID=carbon-kernel&bambooURL=http://wso2.org/bamboo/WSO2CARBON"> Visit Build Status Dashboard </a>
+                    <div style="text-align:center;"><a class="btn btn-default" target="_blank" href="https://ec2-54-83-33-151.compute-1.amazonaws.com:9643/source-code-dashboard/?gitID={{overview_name}}"> Visit Source Coverage Dashboard </a>
                     </div>
-                    <iframe height=500px width="100%" src="http://ec2-54-205-154-153.compute-1.amazonaws.com:9963/gadgets/ifr?url=http://ec2-54-205-154-153.compute-1.amazonaws.com:9963/portal/gadgets/git-commit-summary/git-commit-summary.xml&onRemote=true&gitID={{overview_name}}"></iframe>
+                    <iframe height=500px width="100%" src="http://ec2-54-83-33-151.compute-1.amazonaws.com:9963/gadgets/ifr?url=http://ec2-54-83-33-151.compute-1.amazonaws.com:9963/portal/gadgets/git-commit-summary/git-commit-summary.xml&onRemote=true&gitID={{overview_name}}"></iframe>
                 </div>
             </div>
-
-            <div class="tab-pane" id="tab-vcs_2">
+            <div class="tab-pane " id="tab-commit">
                 <div class="content">
-                    <div style="text-align:center;margin-bottom:15px;"><a class="btn btn-default" target="_blank" href="https://ec2-54-205-154-153.compute-1.amazonaws.com:9643/Build-Status-Dashboard/index.jag?gitID=carbon-kernel&bambooURL=http://wso2.org/bamboo/WSO2CARBON"> Visit Build Status Dashboard </a>
+                    <div style="text-align:center;"><a class="btn btn-default" target="_blank" href="https://ec2-54-83-33-151.compute-1.amazonaws.com:9643/source-code-dashboard/?gitID={{overview_name}}"> Visit Source Coverage Dashboard </a>
                     </div>
-                    <iframe height=500px width="100%" src="http://ec2-54-205-154-153.compute-1.amazonaws.com:9963/gadgets/ifr?url=http://ec2-54-205-154-153.compute-1.amazonaws.com:9963/portal/gadgets/git-project-summary/git-project-summary.xml&onRemote=true&gitID={{overview_name}}"></iframe>
+                    <iframe height=500px width="100%" src="http://ec2-54-83-33-151.compute-1.amazonaws.com:9963/gadgets/ifr?url=http://ec2-54-83-33-151.compute-1.amazonaws.com:9963/portal/gadgets/git-project-summary/git-project-summary.xml&onRemote=true&gitID={{overview_name}}"></iframe>
                 </div>
             </div>
-
-            <div class="tab-pane" id="tab-cis">
+            <div class="tab-pane " id="tab-build">
                 <div class="content">
-                    <div style="text-align:center;margin-bottom:15px;"><a class="btn btn-default" target="_blank" href="https://ec2-54-205-154-153.compute-1.amazonaws.com:9643/Build-Status-Dashboard/index.jag?gitID=carbon-kernel&bambooURL=http://wso2.org/bamboo/WSO2CARBON"> Visit Build Status Dashboard </a>
+                    <div style="text-align:center;"><a class="btn btn-default" target="_blank" href="https://ec2-54-83-33-151.compute-1.amazonaws.com:9643/build-dashboard/?jenkinsURL={{other_continuousIntegration}}"> Visit Build Coverage Dashboard </a>
                     </div>
-                    <iframe height=500px width="100%" src="http://ec2-54-205-154-153.compute-1.amazonaws.com:9963/gadgets/ifr?url=http://ec2-54-205-154-153.compute-1.amazonaws.com:9963/portal/gadgets/bamboo-project-summary-new/bamboo-project-summary-new.xml&onRemote=true&bambooURL={{other_continuousIntegration}}"></iframe>
+                    <iframe height=500px width="100%" src="http://ec2-54-83-33-151.compute-1.amazonaws.com:9963/gadgets/ifr?url=http://ec2-54-83-33-151.compute-1.amazonaws.com:9963/portal/gadgets/jenkins-project-summary/jenkins-project-summary.xml&onRemote=true&jenkinsURL={{other_continuousIntegration}}"></iframe>
                 </div>
             </div>
-
-            <div class="tab-pane active" id="tab-qa">
+            <div class="tab-pane " id="tab-code">
                 <div class="content">
-                    <div style="text-align:center;"><a class="btn btn-default" target="_blank" href="https://ec2-54-205-154-153.compute-1.amazonaws.com:9643/QADashboard/index.jag?projectId=7"> Visit QA Dashboard </a>
+                    <div style="text-align:center;"><a class="btn btn-default" target="_blank" href="https://ec2-54-83-33-151.compute-1.amazonaws.com:9643/code-coverage-dashboard/?jenkinsURL={{other_continuousIntegration}}"> Visit Code Coverage Dashboard </a>
                     </div>
-                    <iframe height=500px width="100%" src="http://ec2-54-205-154-153.compute-1.amazonaws.com:9963/gadgets/ifr?url=http://ec2-54-205-154-153.compute-1.amazonaws.com:9963/portal/gadgets/test-status/test-status.xml&onRemote=true&productId=3&productVersionId={{overview_name}}"></iframe>
+                    <iframe height=500px width="100%" src="http://ec2-54-83-33-151.compute-1.amazonaws.com:9963/gadgets/ifr?url=http://ec2-54-83-33-151.compute-1.amazonaws.com:9963/portal/gadgets/jenkins-emma-package-details/jenkins-emma-package-details.xml&onRemote=true&jenkinsURL={{other_continuousIntegration}}"></iframe>
+                </div>
+            </div>
+            <div class="tab-pane active" id="tab-test">
+                <div class="content">
+                    <div style="text-align:center;"><a class="btn btn-default" target="_blank" href="https://ec2-54-83-33-151.compute-1.amazonaws.com:9643/QADashboard/index.jag?projectID={{other_qaportalProjectId}}"> Visit Code Coverage Dashboard </a>
+                    </div>
+                    <iframe height=500px width="100%" src="http://ec2-54-83-33-151.compute-1.amazonaws.com:9963/gadgets/ifr?url=http://ec2-54-83-33-151.compute-1.amazonaws.com:9963/portal/gadgets/test-status/test-status.xml&onRemote=true&productId={{other_qaportalProjectId}}&productVersionId={{overview_name}}"></iframe>
                 </div>
             </div>
 

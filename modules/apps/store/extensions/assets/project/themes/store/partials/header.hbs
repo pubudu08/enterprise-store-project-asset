@@ -47,13 +47,19 @@
 								</ul>
 
 							</li>
+                            <li>
+								<a target="_blank" href="https://ec2-54-83-33-151.compute-1.amazonaws.com:9443/publisher/" class="btn btn-primary">{{t "Publisher"}}</a>
+							</li>
+
 							{{else}}
 
 							{{#if sso}}
+
+
 							<li>
 								<a href="{{url "/login"}}">{{t "Sign in"}}</a>
 							</li>
-							<li>
+
 								<a href="{{url "/login"}}" id="btn-register"
 								class="btn btn-primary">{{t "Register"}}</a>
 							</li>
@@ -65,6 +71,9 @@
 								<a id="btn-register" class="btn btn-primary" data-toggle="modal"
 								data-target="#modal-register">{{t "Register"}}</a>
 							</li>
+
+
+
 							{{/if}}
 
 							{{/if}}
