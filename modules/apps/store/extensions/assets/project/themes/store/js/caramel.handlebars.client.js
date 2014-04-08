@@ -43,7 +43,11 @@
         if (path.indexOf('http://') === 0 || path.indexOf('https://') === 0) {
             return path;
         }
+        var log = new Log();
+        log.info(path +" "+ caramel.url(path));
+        //console.log(path +" "+ caramel.url(path));
         return caramel.url(path);
+
     });
 
     /**
