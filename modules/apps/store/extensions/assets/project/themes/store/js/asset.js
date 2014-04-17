@@ -1,4 +1,17 @@
 $(function () {
+    $( "#tabs" ).tabs({
+                    panelTemplate: "<iframe height=500px width='100%' ></iframe>",
+                    idPrefix: "ui-tabs-",
+                    select: function(event, ui) {
+                        /*if (!$("#ui-tabs-" + ui.index).prop("src")) {
+                          $("#ui-tabs-" + ui.index).attr("src", $.data(ui.tab, 'load.tabs'));
+                        }*/
+                        console.log(ui);
+                        $('iframe', ui).attr('src', $('iframe', ui).data('src'));
+                    }
+                });
+    console.log('=============================================================');
+
     var $tab = $('#tab-reviews');
     $('a').click(function(){
         var tab = $(this).data("type");
@@ -99,6 +112,7 @@ $(function () {
         };
 
         $('#assetp-tabs').on('click', 'a[href="#tab-reviews"]',function (e) {
+
             var thiz = $(this),
                 current = new Date().getTime();
             e.preventDefault();

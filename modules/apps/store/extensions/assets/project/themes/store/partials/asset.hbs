@@ -67,8 +67,8 @@
             <li>
                 <a href="#tab-code" data-toggle="tab" data-type="basic">{{t "Code Coverage"}}</a>
             </li>
-            <li class="active">
-                <a href="#tab-test" data-toggle="tab" data-type="basic">{{t "Test Status"}}</a>
+            <li class="active" >
+                <a href="#tab-test" id="test" data-toggle="tab" data-type="basic">{{t "Test Status"}}</a>
             </li>
 
 
@@ -106,9 +106,9 @@
             </div>
             <div class="tab-pane active" id="tab-test">
                 <div class="content">
-                    <div style="text-align:center;"><a class="btn btn-default" target="_blank" href="https://ec2-54-83-33-151.compute-1.amazonaws.com:9643/QADashboard/index.jag?projectID={{other_qaportalProjectId}}"> Visit Code Coverage Dashboard </a>
+                    <div style="text-align:center;"><a class="btn btn-default" target="_blank" href="https://ec2-54-83-33-151.compute-1.amazonaws.com:9643/QADashboard/index.jag?projectID={{other_qaportalProjectId}}"> Visit QA Portal Dashboard </a>
                     </div>
-                    <iframe height=500px width="100%" src="https://ec2-54-83-33-151.compute-1.amazonaws.com:9643/gadgets/ifr?url=http://ec2-54-83-33-151.compute-1.amazonaws.com:9963/portal/gadgets/test-status/test-status.xml&onRemote=true&productId={{other_qaportalProjectId}}&productVersionId={{overview_name}}"></iframe>
+                    <iframe height="500px" width="100%" src="https://ec2-54-83-33-151.compute-1.amazonaws.com:9643/gadgets/ifr?url=http://ec2-54-83-33-151.compute-1.amazonaws.com:9963/portal/gadgets/test-status/test-status.xml&onRemote=true&productId={{other_qaportalProjectId}}&productVersionId={{overview_name}}"></iframe>
                 </div>
             </div>
 

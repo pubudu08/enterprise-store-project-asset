@@ -1,7 +1,7 @@
 var resources = function (page, meta) {
     return {
-        js: ['jquery.MetaData.js', 'jquery.rating.pack.js', 'async.min.js', 'asset-core.js', 'asset.js', 'moment.min.js', 'porthole.min.js'],
-        css: ['jquery.rating.css', 'asset.css'],
+        js: ['jquery-1.8.3.min.js','jquery-ui-1.10.4.custom.js','jquery.MetaData.js', 'jquery.rating.pack.js', 'async.min.js', 'asset-core.js', 'asset.js', 'moment.min.js', 'porthole.min.js'],
+        css: ['jquery-ui-1.10.4.custom.css','jquery.rating.css', 'asset.css'],
         code: ['store.asset.hbs']
     };
 };

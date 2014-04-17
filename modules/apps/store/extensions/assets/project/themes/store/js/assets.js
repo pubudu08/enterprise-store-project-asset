@@ -9,6 +9,8 @@ var opened = false, currentPage = 1, infiniteScroll = null;
 
 $(function() {
 
+
+
 	$(document).on('click', '#assets-container .asset-add-btn', function(event) {
 		var parent = $(this).parent().parent().parent();
 		asset.process(parent.data('type'), parent.data('id'), location.href);
